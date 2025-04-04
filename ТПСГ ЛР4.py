@@ -66,15 +66,6 @@ def find(function, k, number, start):
             q_N[y] += save[i][y]
     return q_N[number - 1]
 
-# function_array = ['x**5+x**4+x**3+x**1+1', 'x**2+x**1+1', 'x**6+x**5+x**3+x**2+1']
-# start_array = ['10101', '10', '101010']
-# function_array = ['x**5+x**3+x**2+x**1+1', 'x**3+x**2+1', 'x**6+x**5+1']
-# start_array = ['11111', '111', '111111']
-function_array = ['x**5+x**4+x**3+x**1+1', 'x**3+x**1+1', 'x**6+x**5+x**2+x**1+1']
-start_array = ['11111', '111', '111111']
-k_array = [4, 5, 4]
-number_array = [2, 1, 3]
-
 
 array = []
 for i in range(3):
@@ -83,10 +74,6 @@ for i in range(3):
     k = int(input(f"Введите k = "))
     number = int(input(f"Введите какую последовательность вывести = "))
     start = input(f"Введите начальное состояние = ")
-    # function = function_array[i]
-    # k = k_array[i]
-    # number = number_array[i]
-    # start = start_array[i]
     Rlos = find(function, k, number, start)
     array.append(Rlos)
 
@@ -103,25 +90,13 @@ string1 = array[0] * (int(T / len(array[0])))
 string2 = array[1] * (int(T / len(array[1])))
 string3 = array[2] * (int(T / len(array[2])))
 
-
-otvet = ''
-for sim in range(int(T)):
-    x1 = int(string1[sim]) * int(string2[sim])
-    x2 = int(string2[sim]) * int(string3[sim])
-    x3 = int(string3[sim])
-    otvet += f'{(x1 + x2 + x3) % 2}'
-print(otvet)
+Binary_str = ''.join([f'{((int(string1[sim]) * int(string2[sim])) + (int(string2[sim]) * int(string3[sim])) + int(string3[sim])) % 2}' for sim in range(int(T))])
+print(f"Получилась строка -> {Binary_str}")
 
 numbers = []
-while len(otvet) != 0:
-    if len(otvet) < 16:
-        num = otvet
-        otvet = ''
-        numbers.append(str(int(num, 2)))
-        continue
-    else:
-        num = otvet[0:16]
-        otvet = otvet[16:]
-        numbers.append(str(int(num, 2)))
+while len(Binary_str) != 0:
+    numbers.append(str(int(Binary_str[0:16], 2)))
+    Binary_str = Binary_str[16:]
+
 print(' ')
 print(' '.join(numbers))
