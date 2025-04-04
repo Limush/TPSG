@@ -1,6 +1,27 @@
 from prettytable import PrettyTable
 
 
+def inference(array):
+    if len(array) % 20 == 0:
+        for i in range(20):
+            array.append('')
+    else:
+        for i in range(20 - (len(array) % 20)):
+            array.append('')
+
+    table = PrettyTable()
+    for i in range(len(array) // 20):
+        table.add_row([array[0 + i * 20], array[1 + i * 20], array[2 + i * 20], array[3 + i * 20], array[4 + i * 20],
+                       array[5 + i * 20], array[6 + i * 20], array[7 + i * 20], array[8 + i * 20], array[9 + i * 20],
+                       array[10 + i * 20], array[11 + i * 20], array[12 + i * 20], array[13 + i * 20],
+                       array[14 + i * 20],
+                       array[15 + i * 20], array[16 + i * 20], array[17 + i * 20], array[18 + i * 20],
+                       array[19 + i * 20]])
+    table.border = False
+    table.header = False
+    return table
+
+
 def Nod(a, b, count=0):
     if a == 0 or b == 0:
         return 0
@@ -25,44 +46,21 @@ def decomposition(number):
     return array
 
 
-def generate_PSP(a2, x0, a1, b, m):
+def generate_PSP(a2, x0, a1, b, m, numbers):
     PSP = [x0]
-    while True:
-        x_next = (a2*PSP[-1]**2 + a1*PSP[-1] + b) % m
-        if x_next in PSP:
-            return len(PSP) - PSP.index(x_next)
-        else:
-            PSP.append(x_next)
-
-
-def generate_PSP2(a2, x0, a1, b, m, numbers):
-    PSP = [x0]
+    PSP_len = -1
     count = 0
-    while count != numbers:
-        x_next = (a2*PSP[-1]**2 + a1*PSP[-1] + b) % m
-        PSP.append(x_next)
-        count += 1
-    return PSP
-
-
-def generate_PSP_x(PSP, numbers):
-    PSP_x, Num_x = [], numbers
     while True:
-        if numbers > len(PSP):
-            PSP_x += PSP
-            numbers -= len(PSP)
-        else:
-            PSP_x += PSP[0:numbers]
-            return PSP_x
+        x_next = (a2*PSP[-1]**2 + a1*PSP[-1] + b) % m
+        count += 1
+        if x_next in PSP and PSP_len == -1:
+            PSP_len = len(PSP) - PSP.index(x_next)
+        PSP.append(x_next)
+        if count >= numbers and PSP_len != -1:
+            return PSP[0:numbers], PSP_len
 
 
-def Cheak_max_T(a2, x0, a1, b, m, PSP):
-    def total_multiplier(m_vrem, num, count=0):
-        while m_vrem % num == 0:
-            count += 1
-            m_vrem = m_vrem // num
-        return count
-
+def Cheak_max_T(a2, x0, a1, b, m):
     count_usl = 0
     #   НОД
     if Nod(b, m) == 1:
@@ -115,40 +113,17 @@ def Cheak_max_T(a2, x0, a1, b, m, PSP):
     return 1 if count_usl == 4 else 0
 
 
-def inference(array):
-    if len(array) % 20 == 0:
-        for i in range(20):
-            array.append('')
-    else:
-        for i in range(20 - (len(array) % 20)):
-            array.append('')
-
-    table = PrettyTable()
-    for i in range(len(array) // 20):
-        table.add_row([array[0 + i * 20], array[1 + i * 20], array[2 + i * 20], array[3 + i * 20], array[4 + i * 20],
-                       array[5 + i * 20], array[6 + i * 20], array[7 + i * 20], array[8 + i * 20], array[9 + i * 20],
-                       array[10 + i * 20], array[11 + i * 20], array[12 + i * 20], array[13 + i * 20],
-                       array[14 + i * 20],
-                       array[15 + i * 20], array[16 + i * 20], array[17 + i * 20], array[18 + i * 20],
-                       array[19 + i * 20]])
-    table.border = False
-    table.header = False
-    return table
-
-
 a2 = 2
 x0 = 5
 a1 = 1
 b = 3
 m = 6
 numbers = 10
-PSP = generate_PSP(a2, x0, a1, b, m)
-PSP2 = generate_PSP2(a2, x0, a1, b, m, numbers)
-PSP_x = generate_PSP_x(PSP2, numbers)
+PSP, PSP_len = generate_PSP(a2, x0, a1, b, m, numbers)
 
 print(f"Формула:\n"
       f"\tXₙ₊₁ = ({a2}Xₙ² + {a1}Xₙ + {b})mod {m}\n"
-      f"Период последовательности = {PSP}\n")
-non_compliance = Cheak_max_T(a2, x0, a1, b, m, PSP)
+      f"Период последовательности = {PSP_len}\n")
+non_compliance = Cheak_max_T(a2, x0, a1, b, m)
 print(f"Период последовательности максимальный\n" if non_compliance == 1 else "")
-print(f"Первые {numbers} элементов последовательности:\n{inference(PSP_x)}\n")
+print(f"Первые {numbers} элементов последовательности:\n{inference(PSP)}\n")
