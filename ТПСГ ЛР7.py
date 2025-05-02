@@ -31,12 +31,11 @@ def Test_1(string):
 
 def Test_2(string):
     n = len(string)
-    M = 50
+    M = 100
     block = [string[i:i+M] for i in range(0, len(string) - (len(string) % M), M)]
     pi_block = [number.count('1') for number in block]
     N = len(pi_block)
-    Sum = sum([((number / M) - 0.5)**2 for number in pi_block])
-    X_obs = 4 * M * Sum
+    X_obs = 4 * M * sum([((number / M) - 0.5)**2 for number in pi_block])
     P_value = scipy.special.gammainc(N / 2, X_obs / 2)
 
     print(f"\n\t\tTest №2")
