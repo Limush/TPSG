@@ -1,6 +1,7 @@
 from math import sqrt, erfc
 import scipy
 import mpmath
+import random
 
 from Дополнение import LR1
 from Дополнение import LR2
@@ -31,7 +32,7 @@ def Test_1(string):
 
 def Test_2(string):
     n = len(string)
-    M = 100
+    M = n // random.randint(5, 99)
     block = [string[i:i+M] for i in range(0, len(string) - (len(string) % M), M)]
     pi_block = [number.count('1') for number in block]
     N = len(pi_block)
