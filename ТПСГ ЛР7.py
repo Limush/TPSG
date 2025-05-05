@@ -3,10 +3,10 @@ import scipy
 import mpmath
 import random
 
-from Дополнение import LR1
-from Дополнение import LR2
-from Дополнение import LR3
-from Дополнение import LR4
+from ТПСГ_ЛР7_Дополнение import LR1
+from ТПСГ_ЛР7_Дополнение import LR2
+from ТПСГ_ЛР7_Дополнение import LR3
+from ТПСГ_ЛР7_Дополнение import LR4
 
 
 def array_to_bin(array):
