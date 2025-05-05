@@ -98,8 +98,7 @@ def LR1(x0, a, b, m, ckolko):
 
 def LR2(a2, x0, a1, b, m, numbers):
     def generate_PSP(a2, x0, a1, b, m, numbers):
-        PSP = [x0]
-        PSP_len = -1
+        PSP, PSP_len = [x0], -1
         count = 0
         while True:
             x_next = (a2 * PSP[-1] ** 2 + a1 * PSP[-1] + b) % m

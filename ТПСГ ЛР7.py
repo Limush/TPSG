@@ -32,7 +32,7 @@ def Test_1(string):
 
 def Test_2(string):
     n = len(string)
-    M = n // random.randint(5, 99)
+    M = n // random.randint(10, 99)
     block = [string[i:i+M] for i in range(0, len(string) - (len(string) % M), M)]
     pi_block = [number.count('1') for number in block]
     N = len(pi_block)
